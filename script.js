@@ -21,7 +21,7 @@ class TodoApp {
         this.templates = [
             { name: 'Daily Tasks', icon: '🌅', tasks: ['Check emails', 'Review calendar', 'Plan day priorities'] },
             { name: 'Work Project', icon: '💼', tasks: ['Project planning', 'Team meeting', 'Code review', 'Documentation'] },
-            { name: 'Health & Fitness', icon: '🏃‍♂️', tasks: ['Morning workout', 'Drink 8 glasses of water', 'Take vitamins'] },
+            { name: 'Health & Fitness', icon: 'bi-heart', tasks: ['Morning workout', 'Drink 8 glasses of water', 'Take vitamins'] },
             { name: 'Home & Family', icon: '🏠', tasks: ['Grocery shopping', 'Clean house', 'Family time'] },
             { name: 'Learning', icon: '📚', tasks: ['Read for 30 minutes', 'Practice new skill', 'Take online course'] },
             { name: 'Shopping List', icon: '🛒', tasks: ['Milk', 'Bread', 'Eggs', 'Fruits'] }
@@ -101,9 +101,9 @@ class TodoApp {
      * Initialize the application
      */
     init() {
-        console.log('🔄 Initializing Todo App...');
+        console.log('Initializing Todo App...');
         this.loadTasks();
-        console.log('📝 Loaded tasks:', this.tasks.length);
+        console.log('Loaded tasks:', this.tasks.length);
         this.loadTheme();
         this.bindEvents();
         this.setupDragAndDrop();
@@ -114,7 +114,7 @@ class TodoApp {
             this.render();
             this.updateCounts();
             this.updateCategoryFilter();
-            console.log('🎨 Tasks rendered to DOM');
+            console.log('Tasks rendered to DOM');
         }, 200);
         
         this.checkDueDates();
@@ -130,7 +130,7 @@ class TodoApp {
         setInterval(() => this.checkDueDates(), 60000); // Check every minute
         
         console.log('� Enhanced Todo App v2.0 initialized successfully!');
-        console.log('📊 Features: Priorities, Due Dates, Categories, Search, Bulk Actions, Statistics');
+        console.log('Features: Priorities, Due Dates, Categories, Search, Bulk Actions, Statistics');
     }
     
     /**
@@ -463,7 +463,7 @@ class TodoApp {
         }
         
         const status = task.completed ? 'completed' : 'active';
-        const emoji = task.completed ? '✅' : '↩️';
+        const emoji = task.completed ? 'Completed' : 'Restored';
         this.showToast(`${emoji} Task marked as ${status}`, 'info');
     }
     
@@ -580,7 +580,7 @@ class TodoApp {
      * Render the task list based on current filter
      */
     render() {
-        console.log('🎨 Starting render with', this.tasks.length, 'total tasks');
+        console.log('Starting render with', this.tasks.length, 'total tasks');
         let filteredTasks = this.getFilteredTasks();
         console.log('🔍 Filtered tasks:', filteredTasks.length);
         
@@ -601,17 +601,17 @@ class TodoApp {
         filteredTasks = this.sortTasks(filteredTasks);
         
         if (filteredTasks.length === 0) {
-            console.log('📭 No tasks to display, showing empty state');
+            console.log('No tasks to display, showing empty state');
             this.elements.emptyState.removeClass('hidden');
             this.elements.taskList.empty();
             return;
         }
         
-        console.log('✅ Hiding empty state, rendering', filteredTasks.length, 'tasks');
+        console.log('Hiding empty state, rendering', filteredTasks.length, 'tasks');
         this.elements.emptyState.addClass('hidden');
         
         const taskHtml = filteredTasks.map(task => this.createTaskHtml(task)).join('');
-        console.log('🏗️ Generated HTML for tasks');
+        console.log('Generated HTML for tasks');
         this.elements.taskList.html(taskHtml);
         
         // Ensure tasks are visible immediately
@@ -621,7 +621,7 @@ class TodoApp {
             'display': 'block'
         });
         
-        console.log('👀 Made tasks visible:', this.elements.taskList.find('.task-item').length);
+        console.log('Made tasks visible:', this.elements.taskList.find('.task-item').length);
         
         // Add entrance animations after tasks are visible
         setTimeout(() => {
@@ -636,7 +636,7 @@ class TodoApp {
      * Debug method to force render tasks with simple styling
      */
     debugRender() {
-        console.log('🔧 Debug render - Tasks:', this.tasks.length);
+        console.log('Debug render - Tasks:', this.tasks.length);
         if (this.tasks.length > 0) {
             this.elements.emptyState.hide();
             const simpleTaskHtml = this.tasks.map(task => `
@@ -649,9 +649,9 @@ class TodoApp {
                 </li>
             `).join('');
             this.elements.taskList.html(simpleTaskHtml);
-            console.log('🎨 Debug: Simple tasks rendered');
+            console.log('Debug: Simple tasks rendered');
         } else {
-            console.log('📭 Debug: No tasks to render');
+            console.log('Debug: No tasks to render');
             this.elements.emptyState.show();
         }
     }
@@ -727,7 +727,7 @@ class TodoApp {
      * Create HTML for a single task item
      */
     createTaskHtml(task) {
-        console.log('🏗️ Creating HTML for task:', task.text);
+        console.log('Creating HTML for task:', task.text);
         
         // Simple, guaranteed-to-work HTML
         const completedClass = task.completed ? 'completed' : '';
@@ -898,7 +898,7 @@ class TodoApp {
      * Add sample tasks for first-time users
      */
     addSampleTasks() {
-        console.log('🎯 Adding sample tasks...');
+        console.log('Adding sample tasks...');
         const sampleTasks = [
             {
                 id: this.generateId(),
@@ -930,7 +930,7 @@ class TodoApp {
         ];
         
         this.tasks = sampleTasks;
-        console.log('✅ Sample tasks created:', this.tasks.length);
+        console.log('Sample tasks created:', this.tasks.length);
         this.saveTasks();
     }
     
@@ -990,7 +990,7 @@ class TodoApp {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         
-        this.showToast('📊 Tasks and statistics exported successfully!', 'success');
+        this.showToast('Tasks and statistics exported successfully!', 'success');
     }
     
     /**

@@ -4,36 +4,36 @@ A modern, feature-rich, responsive To-Do List web application built with HTML5, 
 
 ![TaskFlow Screenshot](https://via.placeholder.com/800x400/667eea/ffffff?text=TaskFlow+To-Do+App)
 
-## 🚀 Features
+## Features
 
 ### Core Functionality
-- ✅ **Add, Edit, Delete Tasks** - Full CRUD operations with smooth animations
-- 🔘 **Mark Complete/Incomplete** - Toggle task completion with visual feedback
-- 🎯 **Priority Levels** - High, Medium, Low priority with color coding
-- 📅 **Due Dates** - Set deadlines with calendar picker and overdue notifications
-- 🏷️ **Categories/Tags** - Organize tasks with custom categories
-- 🔍 **Search & Filter** - Find tasks quickly with real-time search
-- 📊 **Statistics Dashboard** - Track productivity with visual progress
+- **Add, Edit, Delete Tasks** - Full CRUD operations with smooth animations
+- **Mark Complete/Incomplete** - Toggle task completion with visual feedback
+- **Priority Levels** - High, Medium, Low priority with color coding
+- **Due Dates** - Set deadlines with calendar picker and overdue notifications
+- **Categories/Tags** - Organize tasks with custom categories
+- **Search & Filter** - Find tasks quickly with real-time search
+- **Statistics Dashboard** - Track productivity with visual progress
 
 ### Advanced Features
-- 🎨 **Dark/Light Theme** - System preference auto-detection
-- 📱 **Fully Responsive** - Works perfectly on mobile, tablet, and desktop
-- 💾 **LocalStorage Persistence** - Data saved automatically
-- 📤 **Import/Export** - Backup and restore tasks (JSON/CSV)
-- ⚡ **Keyboard Shortcuts** - Power user productivity features
-- 🎭 **Bulk Operations** - Select and manage multiple tasks
-- 📈 **Progress Tracking** - Visual progress bars and completion stats
-- 🎯 **Task Templates** - Quick task creation with predefined templates
+- **Dark/Light Theme** - System preference auto-detection
+- **Fully Responsive** - Works perfectly on mobile, tablet, and desktop
+- **LocalStorage Persistence** - Data saved automatically
+- **Import/Export** - Backup and restore tasks (JSON/CSV)
+- **Keyboard Shortcuts** - Power user productivity features
+- **Bulk Operations** - Select and manage multiple tasks
+- **Progress Tracking** - Visual progress bars and completion stats
+- **Task Templates** - Quick task creation with predefined templates
 
 ### UI/UX Excellence
-- 🎨 **Modern Design** - Beautiful gradients and smooth animations
-- ♿ **Accessibility Features** - Screen reader friendly, keyboard navigation
-- 🎪 **Smooth Animations** - Delightful micro-interactions
-- 📐 **Professional Layout** - Clean, organized interface
-- 🌈 **Color-Coded Priorities** - Visual priority indication
-- 🔔 **Toast Notifications** - User feedback for all actions
+- **Modern Design** - Beautiful gradients and smooth animations
+- **Accessibility Features** - Screen reader friendly, keyboard navigation
+- **Smooth Animations** - Delightful micro-interactions
+- **Professional Layout** - Clean, organized interface
+- **Color-Coded Priorities** - Visual priority indication
+- **Toast Notifications** - User feedback for all actions
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **HTML5** - Semantic markup and modern web standards
 - **CSS3** - Advanced styling with custom properties, gradients, and animations
@@ -42,7 +42,7 @@ A modern, feature-rich, responsive To-Do List web application built with HTML5, 
 - **Bootstrap Icons** - Beautiful, scalable vector icons
 - **Google Fonts** - Poppins font family for modern typography
 
-## 📦 Installation & Usage
+## Installation & Usage
 
 ### Quick Start
 1. **Clone the repository**
@@ -74,7 +74,7 @@ A modern, feature-rich, responsive To-Do List web application built with HTML5, 
 ### No Installation Required!
 This is a **client-side only** application - no server, database, or installation needed. Just open `index.html` in your browser and start managing your tasks!
 
-## ⌨️ Keyboard Shortcuts
+## Keyboard Shortcuts
 
 - `Enter` - Add new task or save edit
 - `Escape` - Cancel edit mode
@@ -85,14 +85,14 @@ This is a **client-side only** application - no server, database, or installatio
 - `Ctrl+E` - Export tasks
 - `Ctrl+Shift+N` - Focus new task input
 
-## 📱 Browser Support
+## Browser Support
 
-- ✅ Chrome 80+
-- ✅ Firefox 75+
-- ✅ Safari 13+
-- ✅ Edge 80+
+- Chrome 80+
+- Firefox 75+
+- Safari 13+
+- Edge 80+
 
-## 🎯 Features Walkthrough
+## Features Walkthrough
 
 ### Task Management
 - **Add Tasks**: Type in the input field and press Enter or click Add
@@ -112,7 +112,7 @@ This is a **client-side only** application - no server, database, or installatio
 - **Dark Mode**: Toggle between light and dark themes
 - **Statistics**: View completion rates and productivity metrics
 
-## 🗂️ File Structure
+## File Structure
 
 ```
 taskflow-todo/
@@ -124,7 +124,7 @@ taskflow-todo/
 └── .gitignore         # Git ignore rules
 ```
 
-## 🎨 Customization
+## Customization
 
 ### Color Scheme
 The app uses CSS custom properties for easy theming:
@@ -151,7 +151,7 @@ class TodoApp {
 }
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -159,27 +159,27 @@ class TodoApp {
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Bootstrap team for the amazing CSS framework
 - Bootstrap Icons for the beautiful icon set
 - Google Fonts for the Poppins typography
 - The open-source community for inspiration
 
-## 📞 Support
+## Support
 
 If you have any questions or need help:
 
-- 📧 Open an issue on GitHub
-- 💬 Start a discussion in the repository
-- ⭐ Star the repo if you find it useful!
+- Open an issue on GitHub
+- Start a discussion in the repository
+- Star the repo if you find it useful!
 
 ---
 
-**TaskFlow** - Making task management beautiful and efficient! 🚀
+**TaskFlow** - Making task management beautiful and efficient!
 
-Made with ❤️ by [Your Name]
+Made with love by [Your Name]
