@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tasks - To-Do List App</title>
+    
+    <!-- README: HOW TO RUN -->
+    <!-- 
+    This is an advanced, fully functional, responsive To-Do List web application.
+    
+    TO RUN:
+    1. Simply open this index.html file in any modern web browser
+    2. No server or installation required - runs entirely client-side
+    
+    ENHANCED FEATURES v2.0:
+    - Add, edit, and delete tasks with animations
+    - Mark tasks as complete/incomplete with progress tracking
+    - Filter by All/Active/Completed with smart counts
+    - Priority levels (High, Medium, Low) with color coding
+    - Due dates with calendar picker and notifications
+    - Task categories/tags with filtering
+    - Search functionality with highlighting
+    - Bulk operations (select multiple tasks)
+    - Task statistics and productivity insights
+    - Import/Export functionality (JSON/CSV)
+    - Light/Dark/Auto mode with system preference detection
+    - Data persists in localStorage with backup/restore
+    - Fully responsive design with smooth animations
+    - Advanced accessibility features
+    - Offline PWA capabilities
+    - Drag & drop reordering
+    - Task templates and quick actions
+    
+    KEYBOARD SHORTCUTS:
+    - Enter: Add new task or save edit
+    - Escape: Cancel edit mode
+    - Space: Toggle task completion when focused
+    - Ctrl+A: Select all tasks
+    - Delete: Delete selected tasks
+    - Ctrl+F: Focus search
+    - Ctrl+E: Export tasks
+    - Ctrl+Shift+N: Add new task
+    -->
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1060;">
+        <div id="notification-toast" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toast-message">
+                    <!-- Toast message will be inserted here -->
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <!-- Header -->
+                <header class="sticky-header text-center py-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="mb-0 text-gradient">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            TaskFlow
+                        </h1>
+                        <button id="theme-toggle" class="btn btn-outline-secondary" type="button" aria-label="Toggle dark mode">
+                            <i class="bi bi-moon-fill" id="theme-icon"></i>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Search Bar -->
+                <div class="card search-card mb-3">
+                    <div class="card-body py-2">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input 
+                                type="text" 
+                                id="search-input" 
+                                class="form-control" 
+                                placeholder="Search tasks..." 
+                                aria-label="Search tasks"
+                            >
+                            <button 
+                                type="button" 
+                                id="clear-search" 
+                                class="btn btn-outline-secondary"
+                                style="display: none;"
+                            >
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Task Form -->
+                <div class="card task-form-card mb-4">
+                    <div class="card-body">
+                        <form id="task-form" role="form" aria-label="Add new task">
+                            <div class="row g-2 mb-3">
+                                <div class="col-12">
+                                    <div class="input-group">
+                                        <input 
+                                            type="text" 
+                                            id="task-input" 
+                                            class="form-control" 
+                                            placeholder="What needs to be done?" 
+                                            aria-label="Task description"
+                                            autocomplete="off"
+                                            maxlength="200"
+                                            required
+                                        >
+                                        <button 
+                                            type="submit" 
+                                            id="add-btn" 
+                                            class="btn btn-primary"
+                                            aria-label="Add task"
+                                        >
+                                            <i class="bi bi-plus-lg me-1"></i>
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <select id="priority-select" class="form-select form-select-sm" aria-label="Priority">
+                                        <option value="medium">📋 Medium</option>
+                                        <option value="high">🔴 High</option>
+                                        <option value="low">🟢 Low</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input 
+                                        type="date" 
+                                        id="due-date" 
+                                        class="form-control form-control-sm" 
+                                        aria-label="Due date"
+                                    >
+                                </div>
+                                <div class="col-md-4">
+                                    <input 
+                                        type="text" 
+                                        id="category-input" 
+                                        class="form-control form-control-sm" 
+                                        placeholder="Category (optional)" 
+                                        aria-label="Category"
+                                        list="category-suggestions"
+                                        maxlength="50"
+                                    >
+                                    <datalist id="category-suggestions">
+                                        <option value="Work">
+                                        <option value="Personal">
+                                        <option value="Shopping">
+                                        <option value="Health">
+                                        <option value="Learning">
+                                    </datalist>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="card filter-card mb-4">
+                    <div class="card-body">
+                        <!-- Main Filter Buttons -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-12">
+                                <div class="filter-buttons-container">
+                                    <div class="filter-buttons-grid">
+                                        <input type="radio" class="btn-check" name="filter" id="filter-all" value="all" checked>
+                                        <label class="btn btn-outline-primary filter-btn" for="filter-all">
+                                            <i class="bi bi-list-ul me-2"></i>
+                                            <span class="btn-text">All</span>
+                                            <span id="count-all" class="badge bg-secondary ms-auto">0</span>
+                                        </label>
+
+                                        <input type="radio" class="btn-check" name="filter" id="filter-active" value="active">
+                                        <label class="btn btn-outline-primary filter-btn" for="filter-active">
+                                            <i class="bi bi-circle me-2"></i>
+                                            <span class="btn-text">Active</span>
+                                            <span id="count-active" class="badge bg-primary ms-auto">0</span>
+                                        </label>
+
+                                        <input type="radio" class="btn-check" name="filter" id="filter-completed" value="completed">
+                                        <label class="btn btn-outline-success filter-btn" for="filter-completed">
+                                            <i class="bi bi-check-circle me-2"></i>
+                                            <span class="btn-text">Completed</span>
+                                            <span id="count-completed" class="badge bg-success ms-auto">0</span>
+                                        </label>
+
+                                        <input type="radio" class="btn-check" name="filter" id="filter-overdue" value="overdue">
+                                        <label class="btn btn-outline-danger filter-btn" for="filter-overdue">
+                                            <i class="bi bi-exclamation-triangle me-2"></i>
+                                            <span class="btn-text">Overdue</span>
+                                            <span id="count-overdue" class="badge bg-danger ms-auto">0</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Secondary Controls -->
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <div class="dropdown w-100">
+                                    <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="categoryFilter" data-bs-toggle="dropdown">
+                                        <i class="bi bi-tags me-2"></i>Category
+                                    </button>
+                                    <ul class="dropdown-menu w-100" id="category-filter-menu">
+                                        <li><a class="dropdown-item" href="#" data-category="all">All Categories</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="dropdown w-100">
+                                    <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="sortDropdown" data-bs-toggle="dropdown">
+                                        <i class="bi bi-sort-down me-2"></i>Sort By
+                                    </button>
+                                    <ul class="dropdown-menu w-100">
+                                        <li><a class="dropdown-item" href="#" data-sort="created">Date Created</a></li>
+                                        <li><a class="dropdown-item" href="#" data-sort="due">Due Date</a></li>
+                                        <li><a class="dropdown-item" href="#" data-sort="priority">Priority</a></li>
+                                        <li><a class="dropdown-item" href="#" data-sort="alphabetical">Alphabetical</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-outline-info w-100" id="bulk-select-toggle" title="Bulk Select Mode">
+                                    <i class="bi bi-check-square me-2"></i>Bulk Select
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bulk Actions Bar (Hidden by default) -->
+                <div class="card bulk-actions-card mb-3" id="bulk-actions" style="display: none;">
+                    <div class="card-body py-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span id="selected-count">0</span> task(s) selected
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-success" id="bulk-complete">
+                                    <i class="bi bi-check-lg me-1"></i>Complete
+                                </button>
+                                <button class="btn btn-outline-warning" id="bulk-incomplete">
+                                    <i class="bi bi-arrow-counterclockwise me-1"></i>Incomplete
+                                </button>
+                                <button class="btn btn-outline-danger" id="bulk-delete">
+                                    <i class="bi bi-trash me-1"></i>Delete
+                                </button>
+                                <button class="btn btn-outline-secondary" id="bulk-cancel">
+                                    <i class="bi bi-x-lg me-1"></i>Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Card -->
+                <div class="card stats-card mb-4" id="stats-card">
+                    <div class="card-body py-3">
+                        <div class="row text-center">
+                            <div class="col-3">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="stat-total">0</div>
+                                    <div class="stat-label">Total</div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="stat-item">
+                                    <div class="stat-number text-success" id="stat-completed">0</div>
+                                    <div class="stat-label">Done</div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="stat-item">
+                                    <div class="stat-number text-primary" id="stat-active">0</div>
+                                    <div class="stat-label">Active</div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="stat-item">
+                                    <div class="stat-number text-info" id="stat-progress">0%</div>
+                                    <div class="stat-label">Progress</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress mt-2" style="height: 4px;">
+                            <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task List -->
+                <div class="card task-list-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-list-task me-2"></i>Tasks
+                        </h5>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary" id="export-btn" title="Export Tasks">
+                                <i class="bi bi-download"></i>
+                            </button>
+                            <button class="btn btn-outline-secondary" id="import-btn" title="Import Tasks">
+                                <i class="bi bi-upload"></i>
+                            </button>
+                            <input type="file" id="import-file" accept=".json" style="display: none;">
+                            <button class="btn btn-outline-danger" id="clear-completed-btn" title="Clear Completed">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="empty-state" class="text-center py-5">
+                            <i class="bi bi-clipboard-check display-1 text-muted mb-3"></i>
+                            <h3 class="text-muted">No tasks yet</h3>
+                            <p class="text-muted">Add a task above to get started!</p>
+                        </div>
+                        <ul id="task-list" class="list-unstyled mb-0" role="list">
+                            <!-- Tasks will be dynamically inserted here -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Floating Button -->
+                <div class="fab-container">
+                    <button class="fab fab-main" id="fab-main" title="Quick Actions">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                    <div class="fab-menu" id="fab-menu">
+                        <button class="fab fab-item" id="fab-add-task" title="Add Task">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                        <button class="fab fab-item" id="fab-add-template" title="Add from Template">
+                            <i class="bi bi-collection"></i>
+                        </button>
+                        <button class="fab fab-item" id="fab-stats" title="View Statistics">
+                            <i class="bi bi-graph-up"></i>
+                        </button>
+                        <button class="fab fab-item" id="fab-export" title="Export Tasks">
+                            <i class="bi bi-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="text-center py-4 mt-4">
+                    <div class="footer-content">
+                        <a href="#" id="stats-link" class="stats-link">
+                            <i class="bi bi-graph-up me-2"></i>View Analytics Dashboard
+                        </a>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Modal -->
+    <div class="modal fade" id="statsModal" tabindex="-1" aria-labelledby="statsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="statsModalLabel">
+                        <i class="bi bi-graph-up me-2"></i>Productivity Statistics
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">Task Overview</h6>
+                                    <canvas id="taskChart" width="300" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">Priority Distribution</h6>
+                                    <canvas id="priorityChart" width="300" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">Detailed Metrics</h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-3">
+                                            <div class="text-center">
+                                                <div class="h4 text-primary mb-0" id="total-tasks-metric">0</div>
+                                                <small class="text-muted">Total Tasks</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-center">
+                                                <div class="h4 text-success mb-0" id="completion-rate-metric">0%</div>
+                                                <small class="text-muted">Completion Rate</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-center">
+                                                <div class="h4 text-warning mb-0" id="overdue-tasks-metric">0</div>
+                                                <small class="text-muted">Overdue Tasks</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-center">
+                                                <div class="h4 text-info mb-0" id="avg-completion-metric">-</div>
+                                                <small class="text-muted">Avg. Days to Complete</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="export-stats">Export Statistics</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Templates Modal -->
+    <div class="modal fade" id="templatesModal" tabindex="-1" aria-labelledby="templatesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="templatesModalLabel">
+                        <i class="bi bi-collection me-2"></i>Task Templates
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-2" id="template-list">
+                        <!-- Templates will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
